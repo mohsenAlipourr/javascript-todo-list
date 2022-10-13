@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="header">
+            <h3 class="txt"> All Tasks</h3>
+        </div>
+
+
+        <!-- The content -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="Closure()">&times;</span>
+                <div class="content-input">
+                    <input class="userInput" id="userInput" type="text" placeholder="Title...">
+                </div>
+                <div class="Content-bottom">
+                    <button onclick="Closure()" class="closePage">Close</button>
+                    <button class="SaveChanges" id="enter"> Add Task</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="listItems">
+                <ul>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-add-task">
+            <button id="myBtn" class="add-task" onclick="btn()">+</button>
+        </div>
+
+        <!--  Modal content clean -->
+        <div id="Modaclean" class="modalclean">
+            <!-- Modal content -->
+            <div class="modal-content-clean">
+                <span class="close-clean" onclick="ClosureClean()">&times;</span>
+                <div>
+                    <p class="content-model-clean">(آیا مطمئن هستین تسک را پاک کنید؟ )</p>
+                </div>
+                <div class="content-input-clean">
+                    <button onclick="ClosureClean()" class="closePage">Close</button>
+                    <button class="deletelistitem" id="confirm-deletion"> Delete task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
