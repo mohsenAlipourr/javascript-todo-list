@@ -39,10 +39,22 @@ const ClosureClean = () => {
     modalclean.style.display = "none";
 }
 
+
 //modal edit list
 const editlistmodel = document.getElementById("Modaledit");
-let edit = () => {
+const inputEdit = document.querySelector(".inputEdit");
+const btnEdit = document.querySelector(".btnEditList");
+
+const edit = (id) => {
+    btnEdit.onclick = function() { editList(id) };
+
     editlistmodel.style.display = "block";
+    myarrey.map(index => {
+        if (index.id === id) {
+            inputEdit.value = index.title;
+        }
+
+    });
 }
 const Closedit = () => {
     editlistmodel.style.display = "none";
@@ -53,6 +65,21 @@ const openModelDelet = (id) => {
     clean();
     const confirmDeletion = document.getElementById("confirm-deletion");
     confirmDeletion.onclick = function() { deleteListItem(id) };
+}
+
+//edit list
+const editList = (id) => {
+    let inputEditList = inputEdit.value;
+    if (inputEditList) {
+        myarrey.map(index => {
+            if (index.id === id) {
+                index.title = inputEditList;
+                document.getElementById(id).childNodes[0].childNodes[0].innerHTML = inputEditList;
+                localStorage.setItem("todo_list", JSON.stringify(myarrey));
+            }
+        })
+    }
+    Closedit();
 }
 
 //button done
@@ -86,7 +113,8 @@ const ElementConstruction = (element) => {
     const div = document.createElement("div");
     const div1 = document.createElement("div");
     const dBtn = document.createElement("button");
-    const edit = document.createElement("img");
+    const editList = document.createElement("img");
+    const deleteList = document.createElement("img");
     const tick = document.createElement("img");
 
     p.appendChild(document.createTextNode(element.title));
@@ -100,18 +128,21 @@ const ElementConstruction = (element) => {
     li.classList.add("list");
     li.classList.add(element.status);
     li.setAttribute('id', element.id);
-    div.appendChild(edit);
-    edit.src = "img/item.png";
-    edit.classList.add("editlist");
+    div.appendChild(editList);
+    editList.src = "img/editIcon.png";
+    editList.classList.add("editlist");
+    div.appendChild(deleteList);
+    deleteList.src = "img/item.png";
+    deleteList.classList.add("deleteList");
     div.appendChild(dBtn);
     dBtn.classList.add("button-clean");
     dBtn.appendChild(tick);
     tick.src = "img/tickicon.png";
     tick.classList.add("tickicon");
 
-    edit.onclick = function() { openModelDelet(element.id) }
+    editList.onclick = function() { edit(element.id) }
+    deleteList.onclick = function() { openModelDelet(element.id) }
     dBtn.onclick = function() { doneTask(element.id) };
-    div1.onclick = function() { openModelDelet(element.id) };
 }
 
 //add task list
