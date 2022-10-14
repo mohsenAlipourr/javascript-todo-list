@@ -101,12 +101,12 @@ const ElementConstruction = (element) => {
     li.classList.add(element.status);
     li.setAttribute('id', element.id);
     div.appendChild(edit);
-    edit.src = "item.png";
+    edit.src = "img/item.png";
     edit.classList.add("editlist");
     div.appendChild(dBtn);
     dBtn.classList.add("button-clean");
     dBtn.appendChild(tick);
-    tick.src = "tickicon.png";
+    tick.src = "img/tickicon.png";
     tick.classList.add("tickicon");
 
     edit.onclick = function() { openModelDelet(element.id) }
