@@ -1,16 +1,16 @@
-let myarrey = [];
+const myarrey = [];
 const todoList = JSON.parse(localStorage.getItem("todo_list"));
 
 //creation id
-const creatid = () => {
+const creatNewId = () => {
     let today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    const h = today.getHours();
-    const m = today.getMinutes();
-    const s = today.getSeconds();
-    const id = mm + dd + yyyy + h + m + s;
+    const date = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    const seconds = today.getSeconds();
+    const id = month + date + year + hours + minutes + seconds;
     return id;
 }
 
@@ -32,13 +32,12 @@ window.onclick = function(event) {
 
 //modal clean list
 const modalclean = document.getElementById("Modaclean");
-let clean = () => {
+const clean = () => {
     modalclean.style.display = "block";
 }
-const ClosureClean = () => {
+const closeModel = () => {
     modalclean.style.display = "none";
 }
-
 
 //modal edit list
 const editlistmodel = document.getElementById("Modaledit");
@@ -71,7 +70,7 @@ const openModelDelet = (id) => {
 const editList = (id) => {
     let inputEditList = inputEdit.value;
     if (inputEditList) {
-        myarrey.map(index => {
+        myarrey.findIndex(index => {
             if (index.id === id) {
                 index.title = inputEditList;
                 document.getElementById(id).childNodes[0].childNodes[0].innerHTML = inputEditList;
@@ -101,12 +100,8 @@ const doneTask = (id) => {
 }
 
 //Element construction
-const enterButton = document.getElementById("enter");
-const input = document.getElementById("userInput");
-const inputAddStore = document.getElementById('userInput');
-let ul = document.querySelector("ul");
-
 const ElementConstruction = (element) => {
+    const ul = document.querySelector("ul");
 
     const li = document.createElement("li");
     const p = document.createElement("p");
@@ -147,46 +142,41 @@ const ElementConstruction = (element) => {
 
 //add task list
 const addTask = () => {
-    const newTask = { id: creatid(), title: inputAddStore.value, status: "inactive" };
+    const inputAddStore = document.getElementById('userInput');
+    const newTask = { id: creatNewId(), title: inputAddStore.value, status: "inactive" };
     myarrey.push(newTask);
+    localStorage.setItem("todo_list", JSON.stringify(myarrey));
     inputAddStore.value = "";
     ElementConstruction(newTask);
     Closure();
-    localStorage.setItem("todo_list", JSON.stringify(myarrey));
 }
 
 //deleteListItem
 const deleteListItem = (id) => {
-    const index = myarrey.findIndex(arry => { return arry.id === id; });
+    const index = myarrey.findIndex(arry => arry.id === id);
     myarrey.splice(index, 1);
+    localStorage.setItem("todo_list", JSON.stringify(myarrey));
     const elementSelected = document.getElementById(id);
     elementSelected.parentNode.removeChild(elementSelected);
-    ClosureClean();
-    localStorage.setItem("todo_list", JSON.stringify(myarrey));
+    closeModel();
 }
 
 //Press the button
-const inputLenght = () => {
-    return input.value.length;
-}
+const input = document.getElementById("userInput");
+const inputLenght = () => input.value.length;
+
+const enterButton = document.getElementById("enter");
 const addListAfterClick = () => {
     if (inputLenght() > 0) {
         addTask();
     }
 }
-
-//Press the enter key
-const addListAfterClickKeypress = (event) => {
-    if (inputLenght() > 0 && event.which === 13) {
-        addTask();
-    }
-}
-
 enterButton.addEventListener("click", addListAfterClick);
-input.addEventListener("keypress", addListAfterClickKeypress);
 
 if (todoList) {
-    myarrey = todoList;
+    todoList.map(item => {
+        myarrey.push(item);
+    })
     if (myarrey.length) {
         myarrey.map(item => {
             ElementConstruction(item);
